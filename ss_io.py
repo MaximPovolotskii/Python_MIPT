@@ -25,8 +25,11 @@ def get_data(file_from):
     """
     data = []
     with open (file_from) as file:
-        for line in file:
-            t_data = line.split()
+        
+        for line in file.readlines():
+            t_data = []
+            for word in line.split():
+                t_data.append(word)
             num_data = []
             num_data.append(float(t_data[1]))
             """
@@ -40,5 +43,4 @@ def get_data(file_from):
             num_data.append([float(t_data[12]), float(t_data[13])])
             data.append(num_data)
     return data
-
 

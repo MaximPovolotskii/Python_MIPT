@@ -1,24 +1,33 @@
 from ss_objects import Body
 from ss_draw import draw_objects
 from ss_io import get_data
+"""
+в файле ss_io лежит ещё функция записи данных по планетам в файл
+импортируй и её
+сохраняй новые данные не в solar_sist.txt, а в ещё один txt-файл
+(создай его и запушь в гит тоже)
+"""
+from ss_gui import Button
 import numpy as np
 import pygame
 
 
-FILE = 'test.txt'
+FILE = 'sol_sist_data.txt'
 
 
 class Manager():
     """
     класс менеджера приложения
     """
-    def __init__(self, dt, list_of_buttons=[]):
+    def __init__(self, dt):
         """
         запускается менеджер и интерфейс
         """
         self.list_of_obj = []
-        self.dt = dt 
-        pass
+        self.stop_b = Button(1, (0, 0, 120, 30), 'Pause/Play', (255, 0, 0))
+        self.save_d_b = Button(2, (680, 0, 120, 30), 'Save data', (0, 255, 0))
+        self.dt = dt
+        self.pause = 0
 
     def set_file_from(self, file_from):
         """
@@ -42,7 +51,8 @@ class Manager():
         их параметров, отрисовка, обработка событий на кнопках
         """
         done = self.react_events(events)
-        self.move_obj()
+        if self.pause == 0:
+            self.move_obj()
         self.draw(screen)
         return done
 
@@ -61,6 +71,10 @@ class Manager():
         for event in events:
             if event.type == pygame.QUIT:
                 done = True
+            if self.stop_b.handle_events(event) == 1:
+                self.pause = (self.pause - 1) * (-1)
+            if self.save_d_b.handle_events(event) == 2:
+                pass #дописать здесь функцию из ss_io, записывающую в файл
         return done
 
     def draw(self, screen):
@@ -69,6 +83,8 @@ class Manager():
         """
         for obj in self.list_of_obj:
             draw_objects(screen, self.list_of_obj)
+        self.stop_b.draw(screen)
+        self.save_d_b.draw(screen)
 
     def start(self):
         """
@@ -80,11 +96,9 @@ screen = pygame.display.set_mode([800, 600])
 done = False
 clock = pygame.time.Clock()
 
-manager = Manager(dt=1)
+manager = Manager(dt=0.02)
 
-"""
-пока костыль с пробными телами, потому что в ss_io и set_file_from
-какой-то лютый баг с индексом массива t_data
+
 """
 
 body1 = Body(5*10**13, 10, (0, 0, 0), [300, 300], [0, 3])
@@ -94,10 +108,10 @@ manager.list_of_obj.append(body2)
 
 """
 manager.set_file_from(FILE)
-"""
+
 
 while not done:
-    clock.tick(20)
+    clock.tick(1000)
     screen.fill([255, 255, 255])
     done = manager.process(pygame.event.get(), screen)
     pygame.display.flip()
