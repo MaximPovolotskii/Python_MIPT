@@ -11,7 +11,7 @@ class Button():
         self.role = role
         pass
 
-    def click(point):
+    def click(self, point):
         """
         проверяет, находится ли point внутри прямоугольника кнопки
         """
