@@ -1,6 +1,7 @@
 from ss_objects import Body
 from ss_draw import draw_objects
 from ss_io import get_data
+from ss_io import write_down_data
 """
 в файле ss_io лежит ещё функция записи данных по планетам в файл
 импортируй и её
@@ -13,6 +14,7 @@ import pygame
 
 
 FILE = 'sol_sist_data.txt'
+FILE_WHERE = 'sol_sist_saved_data.txt'
 
 
 class Manager():
@@ -74,7 +76,7 @@ class Manager():
             if self.stop_b.handle_events(event) == 1:
                 self.pause = (self.pause - 1) * (-1)
             if self.save_d_b.handle_events(event) == 2:
-                pass #дописать здесь функцию из ss_io, записывающую в файл
+                write_down_data(FILE_WHERE, self.list_of_obj)
         return done
 
     def draw(self, screen):
