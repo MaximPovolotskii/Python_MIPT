@@ -11,7 +11,11 @@ class Button():
         self.colour = colour
         self.role = role #1 - stop time, 2 - write down current data
 
+<<<<<<< HEAD
+    def click(self, point):
+=======
     def click(self, x, y):
+>>>>>>> d0703ffd2b848d91fa98f529573836b0b8411911
         """
         проверяет, находится ли event внутри прямоугольника кнопки
         """

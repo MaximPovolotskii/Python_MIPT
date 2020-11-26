@@ -40,3 +40,4 @@ class Body():
                 acc = G * obj.m / (np.linalg.norm(r_to) ** 3) * r_to
                 tot_acc = tot_acc + acc
         return tot_acc.tolist()
+
